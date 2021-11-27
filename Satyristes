@@ -1,0 +1,23 @@
+(version 0.0.2)
+
+;; Configuration for the parallel package itself
+(library
+  (name "parallel")
+  (version "0.1.0")
+  (sources
+    ((package "parallel.satyh" "./parallel.satyh")))
+  (opam "satysfi-parallel.opam")
+  (dependencies ())
+  (compatibility ()))
+
+;; Configuration for the document of the parallel package
+(libraryDoc
+  (name "parallel-doc")
+  (version "0.1.0")
+  (workingDirectory ".")
+  (build
+    ((satysfi "parallel-doc.saty" "-o" "parallel-doc.pdf")))
+  (sources
+    ((doc "parallel-doc.pdf" "./parallel-doc.pdf")))
+  (opam "satysfi-parallel-doc.opam")
+  (dependencies ()))
