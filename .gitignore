@@ -1,0 +1,10 @@
+# The files generated from parallel.org
+example.saty
+example-manual.saty
+parallel.satyh
+parallel-doc.org
+parallel-doc.saty
+
+# Auxiliary files are also ignored
+*.pdf
+*.satysfi-aux

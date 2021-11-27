@@ -1,0 +1,3 @@
+[submodule "pandoc-satysfi-template"]
+	path = pandoc-satysfi-template
+	url = https://github.com/MasWag/pandoc-satysfi-template.git
