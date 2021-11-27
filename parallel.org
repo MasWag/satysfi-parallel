@@ -88,7 +88,7 @@ You can also specify the ratios of the columns as follows. We note that their su
 
 * Dependency
 
-=parallel= is independent of any external packages except for =pervasives= that is distributed with SATySFi.
+=parallel= is independent of any external packages except for =pervasives=, which is distributed with SATySFi.
 
 * Contributing
 
