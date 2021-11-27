@@ -38,5 +38,4 @@ jobs:
         automatic_release_tag: ${{ github.ref_name }}
         title: Release ${{ github.ref_name }}
         files: |
-          parallel.zip
-          parallel-doc.zip
+          package.zip
