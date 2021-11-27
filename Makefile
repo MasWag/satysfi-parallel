@@ -17,7 +17,7 @@ parallel-doc.org: parallel.org
 	mv $<.org $@
 
 parallel-doc.html: parallel-doc.org
-	pandoc -s $< -o $@
+	pandoc -s --toc --template=elegant_bootstrap_menu.html $< -o $@
 
 parallel-doc.saty: parallel-doc.org parallel-doc.template.saty ./pandoc-satysfi-template/satysfi.lua
 	pandoc -t ./pandoc-satysfi-template/satysfi.lua -s $< --template ./parallel-doc.template.saty | sed 's/\([^\]\)SATySFi/\1\\SATySFi;/g;s/\([^-\]\)LaTeX/\1\\LaTeX;/g;' > $@

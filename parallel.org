@@ -3,7 +3,34 @@
 
 This is a SATySFi package providing typesetting of two column texts in parallel. This package is inspired by the [[https://ctan.org/pkg/parallel][LaTeX package]] with the same name.
 
-* Usage
+* Installation
+
+You can install SATySFi parallel with opam and Satyrographos:
+
+#+BEGIN_SRC sh
+opam install satysfi-parallel
+#+END_SRC
+
+You can also tangle =parallel.satyh= from =parallel.org= using GNU Emacs by typing =C-c C-v t= (or equivalently, =M-x org-babel-tangle=) after opening parallel.org. Otherwise, you can tangle from command line as follows:
+
+#+BEGIN_SRC sh
+  emacs --batch --eval "(require 'org)" --eval '(org-babel-tangle-file "$<")'
+#+END_SRC
+
+
+* Commands
+
+The parallel package provides only =+parallel= command. The signature of =+parallel= is as follows.
+
+#+NAME: COMMANDS
+#+BEGIN_SRC satysfi
+  direct +parallel : [float?; float?; block-text; block-text] block-cmd
+#+END_SRC
+
+The first and the second arguments of =+parallel= are the float values representing the ratios of the left and the right columns, respectively. These values are optional.
+The third and the forth arguments of =+parallel= are the contents of the left and the right columns, respectively.
+
+* Examples
 
 The following shows a small working example of =parallel= package.
 
@@ -59,21 +86,9 @@ You can also specify the ratios of the columns as follows. We note that their su
   >
 #+END_SRC
 
-* Dependency packages
+* Dependency
 
 =parallel= is independent of any external packages except for =pervasives= that is distributed with SATySFi.
-
-* Commands
-
-The parallel package provides only =+parallel= command. The signature of =+parallel= is as follows.
-
-#+NAME: COMMANDS
-#+BEGIN_SRC satysfi
-  direct +parallel : [float?; float?; block-text; block-text] block-cmd
-#+END_SRC
-
-The first and the second arguments of =+parallel= are the float values representing the ratios of the left and the right columns, respectively. These values are optional.
-The third and the forth arguments of =+parallel= are the contents of the left and the right columns, respectively.
 
 * Contributing
 

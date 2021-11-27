@@ -26,10 +26,12 @@ jobs:
         make parallel-doc.saty
         opam pin add satysfi-parallel-doc.opam "file://${PWD}"
         satyrographos install
+        curl 'https://raw.githubusercontent.com/ryangrose/easy-pandoc-templates/master/copy_templates.sh' | bash
         make doc
         make examples
         mkdir -p site
-        mv parallel-doc.html parallel-doc.pdf example.pdf example-manual.pdf site
+        cp parallel-doc.html index.html
+        mv parallel-doc.html parallel-doc.pdf example.pdf example-manual.pdf index.html site
 
     - name: Deploy
       uses: peaceiris/actions-gh-pages@v3
