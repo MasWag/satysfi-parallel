@@ -7,5 +7,6 @@ parallel-doc.saty
 *.zip
 
 # Auxiliary files are also ignored
+*.html
 *.pdf
 *.satysfi-aux

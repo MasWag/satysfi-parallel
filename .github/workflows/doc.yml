@@ -1,0 +1,40 @@
+name: Generate and upload the document
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  doc:
+    runs-on: ubuntu-latest
+    container:
+      image: amutake/satysfi:latest
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        submodules: true
+    - name: Install dependencies
+      run: |
+        apt-get update && apt-get install -y pkg-config emacs pandoc gawk xz-utils liblzma-dev zip unzip
+
+    - name: Generate the documents
+      run: |
+        export HOME=/root
+        eval $(opam env)
+        opam update
+        make parallel-doc.saty
+        opam pin add satysfi-parallel-doc.opam "file://${PWD}"
+        satyrographos install
+        make doc
+        make examples
+        mkdir -p site
+        mv parallel-doc.html parallel-doc.pdf example.pdf example-manual.pdf site
+
+    - name: Deploy
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_branch: gh-pages
+        publish_dir: ./site
+        destination_dir: .
