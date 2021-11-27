@@ -17,7 +17,7 @@ parallel-doc.org: parallel.org
 	mv $<.org $@
 
 parallel-doc.saty: parallel-doc.org parallel-doc.template.saty ./pandoc-satysfi-template/satysfi.lua
-	pandoc -t ./pandoc-satysfi-template/satysfi.lua -s $< --template ./parallel-doc.template.saty | gsed 's/\([^\]\)SATySFi/\1\\SATySFi;/g;s/\([^-\]\)LaTeX/\1\\LaTeX;/g;' > $@
+	pandoc -t ./pandoc-satysfi-template/satysfi.lua -s $< --template ./parallel-doc.template.saty | sed 's/\([^\]\)SATySFi/\1\\SATySFi;/g;s/\([^-\]\)LaTeX/\1\\LaTeX;/g;' > $@
 
 %.pdf: %.saty parallel.satyh
 	satysfi $<
@@ -27,4 +27,11 @@ $(TANGLED): tangle
 tangle: parallel.org
 	emacs --batch --eval "(require 'org)" --eval '(org-babel-tangle-file "$<")'
 
-.PHONY: all clean
+release: parallel.zip parallel-doc.zip
+
+parallel.zip: LICENSE example.saty example-manual.saty parallel.satyh Satyristes satysfi-parallel.opam
+	zip $@ $^ 
+parallel-doc.zip: LICENSE parallel-doc.pdf parallel-doc.saty Satyristes satysfi-parallel-doc.opam
+	zip $@ $^ 
+
+.PHONY: all clean doc tangle release

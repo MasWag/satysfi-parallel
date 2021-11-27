@@ -4,6 +4,7 @@ example-manual.saty
 parallel.satyh
 parallel-doc.org
 parallel-doc.saty
+*.zip
 
 # Auxiliary files are also ignored
 *.pdf

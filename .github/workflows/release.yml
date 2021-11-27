@@ -1,0 +1,42 @@
+name: release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container:
+      image: amutake/satysfi:latest
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        submodules: true
+
+    - name: Install dependencies
+      run: |
+        apt-get update && apt-get install -y pkg-config emacs pandoc gawk xz-utils liblzma-dev zip unzip
+
+    - name: Create the artifacts
+      run: |
+        export HOME=/root
+        eval $(opam env)
+        opam update
+        make parallel-doc.saty
+        opam pin add satysfi-parallel-doc.opam "file://${PWD}"
+        satyrographos install
+        make release
+
+    - name: Create release
+      uses: "marvinpinto/action-automatic-releases@latest"
+      with:
+        repo_token: ${{ secrets.GITHUB_TOKEN }}
+        draft: true
+        prerelease: false
+        automatic_release_tag: ${{ github.ref_name }}
+        title: Release ${{ github.ref_name }}
+        files: |
+          parallel.zip
+          parallel-doc.zip
