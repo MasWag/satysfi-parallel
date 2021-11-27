@@ -1,7 +1,7 @@
 #+TITLE: The =parallel= package
 #+AUTHOR: Masaki Waga
 
-This is a SATySFi package providing typesetting of two column texts in parallel. This package is inspired by the [[https://ctan.org/pkg/parallel][LaTeX package]] with the same name.
+This is a SATySFi package providing typesetting of two column texts in parallel. This package is inspired by the [[https://ctan.org/pkg/parallel][LaTeX package]] with the same name. [[https://github.com/MasWag/satysfi-parallel][This]] is the official repository.
 
 * Installation
 
