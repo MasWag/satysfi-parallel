@@ -39,3 +39,4 @@ jobs:
         title: Release ${{ github.ref_name }}
         files: |
           package.zip
+          package.tar.gz

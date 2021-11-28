@@ -30,9 +30,12 @@ $(TANGLED): tangle
 tangle: parallel.org
 	emacs --batch --eval "(require 'org)" --eval '(org-babel-tangle-file "$<")'
 
-release: package.zip
+release: package.zip package.tar.gz
 
 package.zip: LICENSE example.saty example-manual.saty parallel.satyh Satyristes satysfi-parallel.opam parallel-doc.pdf parallel-doc.saty satysfi-parallel-doc.opam
 	zip $@ $^ 
+
+package.tar.gz: LICENSE example.saty example-manual.saty parallel.satyh Satyristes satysfi-parallel.opam parallel-doc.pdf parallel-doc.saty satysfi-parallel-doc.opam
+	tar czvf $@ $^ 
 
 .PHONY: all clean doc tangle release
