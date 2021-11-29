@@ -20,15 +20,22 @@ You can also tangle =parallel.satyh= from =parallel.org= using GNU Emacs by typi
 
 * Command
 
-The parallel package provides only =+parallel= command. The signature of =+parallel= is as follows.
+The parallel package provides four commands: =+parallel=, =+parallel-bottom=, =+parallel-top-bottom=, and =+parallel-bottom-top=. Their difference is only the choice of the baseline. Their signatures are as follows.
 
 #+NAME: COMMANDS
 #+BEGIN_SRC satysfi
+  % This uses embed-block-top, i.e., aligns the baseline of the top lines.
   direct +parallel : [float?; float?; block-text; block-text] block-cmd
+  % This uses embed-block-bottom, i.e., aligns the baseline of the bottom lines.
+  direct +parallel-bottom : [float?; float?; block-text; block-text] block-cmd
+  % This uses embed-block-top for the left block and embed-block-bottom for the right block.
+  direct +parallel-top-bottom : [float?; float?; block-text; block-text] block-cmd
+  % This uses embed-block-bottom for the left block and embed-block-top for the right block.
+  direct +parallel-bottom-top : [float?; float?; block-text; block-text] block-cmd
 #+END_SRC
 
-The first and the second arguments of =+parallel= are the float values representing the ratios of the left and the right columns, respectively. These values are optional.
-The third and the forth arguments of =+parallel= are the contents of the left and the right columns, respectively.
+The first and the second arguments are the float values representing the ratios of the left and the right columns, respectively. These values are optional.
+The third and the forth arguments are the contents of the left and the right columns, respectively.
 
 * Examples
 
@@ -101,31 +108,42 @@ It is also welcome to make an issue with a suggestion of improvement, bug fix, a
 The following shows the implementation of the parallel package.
 
 #+BEGIN_SRC satysfi :tangle ./parallel.satyh :noweb yes
-   @require: pervasives
-
-   module Parallel : sig
+  @require: pervasives
   
-     <<COMMANDS>>
+  module Parallel : sig
+  
+    <<COMMANDS>>
+  
+  end = struct
+      let get-ratio ratio-opt = 
+        match ratio-opt with
+        | None -> 0.48
+        | Some(ratio) -> ratio
+  
+      let parallel-scheme embed-left embed-right ctx left-ratio right-ratio left-block right-block =
+        let left-ratio = get-ratio left-ratio in
+        let right-ratio = get-ratio right-ratio in
+        let left-column-width = (get-text-width ctx) *' left-ratio in
+        let right-column-width = (get-text-width ctx) *' right-ratio in
+        let margin = (get-text-width ctx) -' left-column-width -' right-column-width in
+        let br-left-pbox =
+          embed-left ctx left-column-width (fun ctx -> read-block ctx left-block) in
+        let br-right-pbox =
+          embed-right ctx right-column-width (fun ctx -> read-block ctx right-block) in
+        form-paragraph ctx (br-left-pbox ++ (inline-skip margin) ++ br-right-pbox)
+  
+      let-block ctx +parallel ?:left-ratio ?:right-ratio left-block right-block =
+        parallel-scheme embed-block-top embed-block-top ctx left-ratio right-ratio left-block right-block
 
-   end = struct
-       let-block ctx +parallel ?:left-ratio ?:right-ratio left-block right-block =
-         let left-ratio = 
-           match left-ratio with
-           | None -> 0.48
-           | Some(left-ratio) -> left-ratio in
-         let right-ratio =
-           match right-ratio with
-           | None -> 0.48
-           | Some(right-ratio) -> right-ratio in
-         let left-column-width = (get-text-width ctx) *' left-ratio in
-         let right-column-width = (get-text-width ctx) *' right-ratio in
-         let margin = (get-text-width ctx) -' left-column-width -' right-column-width in
-         let br-left-pbox =
-           embed-block-top ctx left-column-width (fun ctx -> read-block ctx left-block) in
-         let br-right-pbox =
-           embed-block-top ctx right-column-width (fun ctx -> read-block ctx right-block) in
-         form-paragraph ctx (br-left-pbox ++ (inline-skip margin) ++ br-right-pbox)
-   end
+      let-block ctx +parallel-bottom ?:left-ratio ?:right-ratio left-block right-block =
+        parallel-scheme embed-block-bottom embed-block-bottom ctx left-ratio right-ratio left-block right-block
+
+      let-block ctx +parallel-top-bottom ?:left-ratio ?:right-ratio left-block right-block =
+        parallel-scheme embed-block-top embed-block-bottom ctx left-ratio right-ratio left-block right-block
+
+      let-block ctx +parallel-bottom-top ?:left-ratio ?:right-ratio left-block right-block =
+        parallel-scheme embed-block-bottom embed-block-top ctx left-ratio right-ratio left-block right-block
+  end
 #+END_SRC
 
 * On the release to satyrographos-repo
