@@ -10,8 +10,18 @@ Installation
 
 You can install SATySFi parallel with opam and Satyrographos:
 
-```
+```sh
 opam install satysfi-parallel
+```
+
+You can also manually install SATySFi parallel from the distribution:
+
+```sh
+mkdir -p /path/to/directory
+cd /path/to/directory
+curl -L https://github.com/MasWag/satysfi-parallel/releases/download/v0.2.0/package.tar.gz | tar zxvf -
+opam pin add satysfi-parallel "file://${PWD}"
+satyrographos install
 ```
 
 Minimal Usage
