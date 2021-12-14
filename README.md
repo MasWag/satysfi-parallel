@@ -2,6 +2,7 @@ SATySFi Parallel
 ================
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](./LICENSE)
+[![Satyrographos: v0.1.0](https://img.shields.io/badge/Satyrographos-v0.1.0-green.svg)](https://satyrographos-packages.netlify.app/packages/parallel)
 
 This is a SATySFi package providing typesetting of two column text in parallel. See [here](https://maswag.github.io/satysfi-parallel/example.pdf) and [here](https://maswag.github.io/satysfi-parallel/example-manual.pdf) for the output PDF files. This package is inspired by the [LaTeX package](https://ctan.org/pkg/parallel) with the same name.
 
